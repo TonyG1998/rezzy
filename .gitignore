@@ -130,5 +130,5 @@ dmypy.json
 .pyre/
 =======
 *.json
-geckodriver.log
+*.log
 >>>>>>> 0497f8c (Initial commit.)
