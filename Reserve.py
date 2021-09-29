@@ -122,31 +122,78 @@ class Reservation:
 
         #TODO click reservation
 
+    def update_config(self, day: str):
+        print("update")
+        # TODO updates the restaurant config if a reservation is found for the given day.
+
     def reserve(self):
         ''' Check which days we already have reservations for. We only search on dates where we don't have a
         reservation for that restaurant'''
 
         if not self.config['reservations']['this_friday']:
-            ## TODO:
+            log.info("Searching for tables this Friday")
+            time_slots = self.find_tables('Friday')
+
+            if len(time_slots) != 0:
+                # TODO function to decide what time to reserve
+                log.success("Times found for this Friday!")
+                log.success(f"Times: {time_slots}")
+                self.get_reservation(time_slots[-1])
+                self.update_config('this_friday')
+            else:
+                log.notice("No tables found for this Friday")
+
         if not self.config['reservations']['this_saturday']:
-            ## TODO:
-        if not self.config['reservations']['this_']:
-            ## TODO:
-        if not self.config['reservations']['this_friday']:
-            ## TODO:
+            log.info("Searching for tables this Saturday")
+            time_slots = self.find_tables('Saturday')
+
+            if len(time_slots) != 0:
+                # TODO function to decide what time to reserve
+                log.success("Times found for this Saturday!")
+                log.success(f"Times: {time_slots}")
+                self.get_reservation(time_slots[-1])
+                self.update_config('this_saturday')
+            else:
+                log.notice("No tables found for this Saturday")
+
+        if not self.config['reservations']['next_friday']:
+            log.info("Searching for tables next Friday")
+            time_slots = self.find_tables('Friday', out=True)
+
+            if len(time_slots) != 0:
+                # TODO function to decide what time to reserve
+                log.success("Times found for next Friday!")
+                log.success(f"Times: {time_slots}")
+                self.get_reservation(time_slots[-1])
+                self.update_config('next_friday')
+            else:
+                log.info("No tables found for next Friday")
+
+        if not self.config['reservations']['next_saturday']:
+            log.info("Searchiong for tables next Saturday")
+            time_slots = self.find_tables('Saturday', out=True)
+
+            if len(time_slots) != 0:
+                # TODO function to decide what time to reserve
+                log.success("Times found for next Saturday!")
+                log.success(f"Times: {time_slots}")
+                self.get_reservation(time_slots[-1])
+                self.update_config('next_saturday')
+            else:
+                log.info("No tables found for next Saturday")
+
 
 
 
 def main():
     browser = webdriver.Firefox()
-    restaurants = open("restaurants.json")
+    broadway = open("configs/broadway.json")
     accounts_file = open("accounts.json")
 
-    configs = json.load(restaurants)
+    config = json.load(broadway)
     accounts = json.load(accounts_file)
 
-    broadway_config = configs['Broadway']
-    Reservation(browser, broadway_config, accounts[broadway_config['form_info']['account']]).reserve()
+    Reservation(browser, config, accounts[config['form_info']['account']]).reserve()
 
 
 
