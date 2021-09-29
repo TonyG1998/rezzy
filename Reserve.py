@@ -122,34 +122,19 @@ class Reservation:
 
         #TODO click reservation
 
-    def reserve(self, next_day='Friday'):
+    def reserve(self):
+        ''' Check which days we already have reservations for. We only search on dates where we don't have a
+        reservation for that restaurant'''
 
-        time_slots = self.find_tables(next_day)
+        if not self.config['reservations']['this_friday']:
+            ## TODO:
+        if not self.config['reservations']['this_saturday']:
+            ## TODO:
+        if not self.config['reservations']['this_']:
+            ## TODO:
+        if not self.config['reservations']['this_friday']:
+            ## TODO:
 
-        #If no times were found for the initial date, check the other dates
-        if len(time_slots) == 0:
-            log.notice(f"No times found for next {next_day}... Checking other dates")
-            for x in range(0, 3):
-                self.browser.delete_all_cookies()
-                if x == 0:
-                    time_slots = self.find_tables('Saturday')
-                if x == 1:
-                    time_slots = self.find_tables('Friday', out=True)
-                if x == 2:
-                    time_slots = self.find_tables('Saturday', out=True)
-
-                if len(time_slots) != 0:
-                    log.success("Found tables!")
-                    log.success(f"Table times: {time_slots}")
-                    break
-                else:
-                    log.notice("No tables found. Checking next date...")
-
-        if len(time_slots) != 0:
-            slot = time_slots[0]
-            self.get_reservation(slot)
-        else:
-            log.warning("No tables found in the next two weeks. Try again tomorrow...")
 
 
 def main():
