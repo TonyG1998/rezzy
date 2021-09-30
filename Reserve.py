@@ -123,8 +123,14 @@ class Reservation:
         #TODO click reservation
 
     def update_config(self, day: str):
-        print("update")
+        self.config['reservations'][day] = True
+
         # TODO updates the restaurant config if a reservation is found for the given day.
+        file_name = self.config['name']
+        with open(f"configs/{file_name}.json", "w") as f:
+            json.dump(self.config, f, indent=2)
+            f.close()
+
 
     def reserve(self):
         ''' Check which days we already have reservations for. We only search on dates where we don't have a
