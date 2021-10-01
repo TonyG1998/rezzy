@@ -9,7 +9,13 @@ from pyvirtualdisplay import Display
 CONFIG_DIR= './configs'
 ACCOUNTS_FILE = open('accounts.json')
 ACCOUNTS = json.load(ACCOUNTS_FILE)
-log = verboselogs.VerboseLogger('reservation_service')
+
+logging.basicConfig(filename="servicelog.text",
+                            filemode='a',
+                            format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                            datefmt='%H:%M:%S',
+                            level=logging.DEBUG)
+log = logging.getLogger("reservation_service.py")
 
 def main():
 
@@ -27,7 +33,7 @@ def main():
     display.start()
 
     for restaurant in configs:
-        log.success(f"STARTING RUN FOR {restaurant['name']} !")
+        log.info(f"STARTING RUN FOR {restaurant['name']} !")
         browser = webdriver.Firefox()
         try:
             Reservation(browser, restaurant, ACCOUNTS[restaurant['form_info']['account']]).reserve()

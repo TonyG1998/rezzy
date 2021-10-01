@@ -5,7 +5,12 @@ import pendulum
 import json
 
 
-log = verboselogs.VerboseLogger('rezzy')
+logging.basicConfig(filename="rezzylog.text",
+                            filemode='a',
+                            format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                            datefmt='%H:%M:%S',
+                            level=logging.INFO)
+log = logging.getLogger("Reserve.py")
 
 
 
@@ -96,7 +101,7 @@ class Reservation:
     def get_reservation(self, slot):
         date = self.browser.find_element_by_xpath(".//button[@data-auto='expandCalendar']/div").text
         slot_element = self.browser.find_element_by_xpath(f".//div[@data-auto='timeslot']/span[text()='{slot}']")
-        log.success(f"Getting reservation for {date} at {slot}... ")
+        log.info(f"Getting reservation for {date} at {slot}... ")
         slot_element.click()
         time.sleep(5)
         self.fill_form()
@@ -116,12 +121,21 @@ class Reservation:
         password_element.send_keys(self.account['password'])
         time.sleep(1)
         password_element.submit()
-        log.success("Submitting info")
+        log.info("Submitting info")
         time.sleep(5)
 
+        self.browser.switch_to.default_content()
+        time.sleep(2)
 
+        log.info("Filling phone number")
+        phone_element = self.browser.find_element_by_xpath(".//input[@id='phoneNumber']")
+        phone_element.send_keys(self.config['form_info']['phone_number'])
+        time.sleep(2)
+
+        log.info("Clicking reservation button")
         #TODO click reservation
         self.browser.find_element_by_xpath(".//button[@id='complete-reservation']").click()
+        time.sleep(10)
 
     def update_config(self, day: str):
         self.config['reservations'][day] = True
@@ -143,8 +157,8 @@ class Reservation:
 
             if len(time_slots) != 0:
                 # TODO function to decide what time to reserve
-                log.success("Times found for this Friday!")
-                log.success(f"Times: {time_slots}")
+                log.info("Times found for this Friday!")
+                log.info(f"Times: {time_slots}")
                 self.get_reservation(time_slots[-1])
                 self.update_config('this_friday')
             else:
@@ -156,8 +170,8 @@ class Reservation:
 
             if len(time_slots) != 0:
                 # TODO function to decide what time to reserve
-                log.success("Times found for this Saturday!")
-                log.success(f"Times: {time_slots}")
+                log.info("Times found for this Saturday!")
+                log.info(f"Times: {time_slots}")
                 self.get_reservation(time_slots[-1])
                 self.update_config('this_saturday')
             else:
@@ -169,8 +183,8 @@ class Reservation:
 
             if len(time_slots) != 0:
                 # TODO function to decide what time to reserve
-                log.success("Times found for next Friday!")
-                log.success(f"Times: {time_slots}")
+                log.info("Times found for next Friday!")
+                log.info(f"Times: {time_slots}")
                 self.get_reservation(time_slots[-1])
                 self.update_config('next_friday')
             else:
@@ -182,9 +196,23 @@ class Reservation:
 
             if len(time_slots) != 0:
                 # TODO function to decide what time to reserve
-                log.success("Times found for next Saturday!")
-                log.success(f"Times: {time_slots}")
+                log.info("Times found for next Saturday!")
+                log.info(f"Times: {time_slots}")
                 self.get_reservation(time_slots[-1])
                 self.update_config('next_saturday')
             else:
                 log.info("No tables found for next Saturday")
+def main():
+    test_config = open("./configs/broadway.json")
+    config = json.load(test_config)
+    ACCOUNTS = json.load(open("accounts.json"))
+
+    browser = webdriver.Firefox()
+    try:
+        Reservation(browser, config, ACCOUNTS[config['form_info']['account']]).reserve()
+    except Exception as e:
+        log.error(f"Error reserving for {restaurant['name']}: {e}")
+    browser.quit()
+
+if __name__ == "__main__":
+    main()
