@@ -5,7 +5,7 @@ import pendulum
 import json
 
 
-logging.basicConfig(filename="rezzylog.text",
+logging.basicConfig(filename="rezzylog.txt",
                             filemode='a',
                             format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                             datefmt='%H:%M:%S',

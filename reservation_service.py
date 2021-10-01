@@ -10,7 +10,7 @@ CONFIG_DIR= './configs'
 ACCOUNTS_FILE = open('accounts.json')
 ACCOUNTS = json.load(ACCOUNTS_FILE)
 
-logging.basicConfig(filename="servicelog.text",
+logging.basicConfig(filename="servicelog.txt",
                             filemode='a',
                             format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                             datefmt='%H:%M:%S',
