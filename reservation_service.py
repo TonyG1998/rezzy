@@ -27,7 +27,7 @@ def main():
     display.start()
 
     for restaurant in configs:
-        log,success(f"STARTING RUN FOR {restaurant['name']} !")
+        log.success(f"STARTING RUN FOR {restaurant['name']} !")
         browser = webdriver.Firefox()
         try:
             Reservation(browser, restaurant, ACCOUNTS[restaurant['form_info']['account']]).reserve()
