@@ -20,7 +20,7 @@ def main():
             with open(os.path.join(config_dir, filename), "w") as f:
                 json.dump(config, f, indent=2)
                 f.close()
-
+git
     if True:
         for filename in os.listdir(config_dir):
             with open(os.path.join(config_dir, filename)) as f:

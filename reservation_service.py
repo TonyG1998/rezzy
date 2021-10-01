@@ -3,9 +3,36 @@ import logging, coloredlogs, verboselogs
 import pendulum
 from selenium import webdriver
 import json
+import os
+
+CONFIG_DIR= './configs'
+ACCOUNTS_FILE = open('accounts.json')
+ACCOUNTS = json.load(ACCOUNTS_FILE)
+log = verboselogs.VerboseLogger('reservation_service')
 
 def main():
-    browser = webdriver.Firefox()
+
+    configs = []
+    # Load all of our restaurant configs into a list
+    for filename in os.listdir(CONFIG_DIR):
+        with open(os.path.join(CONFIG_DIR, filename)) as f:
+            config = json.load(f)
+            configs.append(config)
+            f.close()
+
+
+    # Browser initialization
+
+
+    for restaurant in configs:
+        browser = webdriver.Firefox()
+        try:
+            Reservation(browser, restaurant, ACCOUNTS[restaurant['form_info']['account']]).reserve()
+        except Exception as e:
+            log.error(f"Error reserving for {restaurant['name']}: {e}")
+        browser.quit()
+
+
 
 if __name__ == "__main__":
     main()

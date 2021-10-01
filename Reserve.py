@@ -187,21 +187,3 @@ class Reservation:
                 self.update_config('next_saturday')
             else:
                 log.info("No tables found for next Saturday")
-
-
-
-
-def main():
-    browser = webdriver.Firefox()
-    broadway = open("configs/broadway.json")
-    accounts_file = open("accounts.json")
-
-    config = json.load(broadway)
-    accounts = json.load(accounts_file)
-
-    Reservation(browser, config, accounts[config['form_info']['account']]).reserve()
-
-
-
-if __name__ == "__main__":
-    main()
