@@ -157,7 +157,7 @@ class Reservation:
                 self.get_reservation(time_slots[-1])
                 self.update_config('this_friday')
             else:
-                log.notice("No tables found for this Friday")
+                log.info("No tables found for this Friday")
 
         if not self.config['reservations']['this_saturday']:
             log.info("Searching for tables this Saturday")
@@ -170,7 +170,7 @@ class Reservation:
                 self.get_reservation(time_slots[-1])
                 self.update_config('this_saturday')
             else:
-                log.notice("No tables found for this Saturday")
+                log.info("No tables found for this Saturday")
 
         if not self.config['reservations']['next_friday']:
             log.info("Searching for tables next Friday")
