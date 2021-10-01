@@ -4,6 +4,7 @@ import pendulum
 from selenium import webdriver
 import json
 import os
+from pyvirtualdisplay import Display
 
 CONFIG_DIR= './configs'
 ACCOUNTS_FILE = open('accounts.json')
