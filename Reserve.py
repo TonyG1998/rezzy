@@ -12,11 +12,6 @@ logging.basicConfig(filename="rezzylog.txt",
                             level=logging.INFO)
 log = logging.getLogger("Reserve.py")
 
-
-
-coloredlogs.install(level='', logger=log)
-
-
 class Reservation:
 
     def __init__(self, browser, config, account):
