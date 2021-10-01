@@ -22,7 +22,8 @@ def main():
 
 
     # Browser initialization
-
+    display = Display(visible=0, size=(1920, 1080))
+    display.start()
 
     for restaurant in configs:
         browser = webdriver.Firefox()
@@ -31,6 +32,8 @@ def main():
         except Exception as e:
             log.error(f"Error reserving for {restaurant['name']}: {e}")
         browser.quit()
+
+    display.stop()
 
 
 

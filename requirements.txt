@@ -2,3 +2,4 @@ coloredlogs
 verboselogs
 pendulum
 selenium
+pyvirtualdisplay
