@@ -121,6 +121,7 @@ class Reservation:
 
 
         #TODO click reservation
+        self.browser.find_element_by_xpath(".//button[@id='complete-reservation']").click()
 
     def update_config(self, day: str):
         self.config['reservations'][day] = True
