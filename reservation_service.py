@@ -18,30 +18,33 @@ logging.basicConfig(filename="servicelog.txt",
 log = logging.getLogger("reservation_service.py")
 
 def main():
+    try:
+        configs = []
+        # Load all of our restaurant configs into a list
+        for filename in os.listdir(CONFIG_DIR):
+            with open(os.path.join(CONFIG_DIR, filename)) as f:
+                config = json.load(f)
+                configs.append(config)
+                f.close()
 
-    configs = []
-    # Load all of our restaurant configs into a list
-    for filename in os.listdir(CONFIG_DIR):
-        with open(os.path.join(CONFIG_DIR, filename)) as f:
-            config = json.load(f)
-            configs.append(config)
-            f.close()
 
+        # Browser initialization
+        display = Display(visible=0, size=(1920, 1080))
+        display.start()
 
-    # Browser initialization
-    display = Display(visible=0, size=(1920, 1080))
-    display.start()
-
-    for restaurant in configs:
-        log.info(f"STARTING RUN FOR {restaurant['name']} !")
-        browser = webdriver.Firefox()
-        try:
-            Reservation(browser, restaurant, ACCOUNTS[restaurant['form_info']['account']]).reserve()
-        except Exception as e:
-            log.error(f"Error reserving for {restaurant['name']}: {e}")
-        browser.quit()
+        for restaurant in configs:
+            log.info(f"STARTING RUN FOR {restaurant['name']} !")
+            browser = webdriver.Firefox()
+            try:
+                Reservation(browser, restaurant, ACCOUNTS[restaurant['form_info']['account']]).reserve()
+            except Exception as e:
+                log.error(f"Error reserving for {restaurant['name']}: {e}")
+            
+    except Exception as e:
+        log.error(f"Error in reservation service {e}"")
 
     display.stop()
+    browser.quit()
 
 
 
