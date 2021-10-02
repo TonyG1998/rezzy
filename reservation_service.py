@@ -39,9 +39,9 @@ def main():
                 Reservation(browser, restaurant, ACCOUNTS[restaurant['form_info']['account']]).reserve()
             except Exception as e:
                 log.error(f"Error reserving for {restaurant['name']}: {e}")
-            
+
     except Exception as e:
-        log.error(f"Error in reservation service {e}"")
+        log.error(f"Error in reservation service {e}")
 
     display.stop()
     browser.quit()
