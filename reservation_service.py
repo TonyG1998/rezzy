@@ -8,7 +8,7 @@ from pyvirtualdisplay import Display
 
 CONFIG_DIR= './configs'
 ACCOUNTS_FILE = open('./accounts.json')
-ACCOUNTS = json.load(ACCOUNTS_FILE)
+ACCOUNTS = json.load(ACC)
 
 logging.basicConfig(filename="servicelog.txt",
                             filemode='a',

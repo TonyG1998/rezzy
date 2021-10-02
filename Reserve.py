@@ -9,7 +9,7 @@ logging.basicConfig(filename="rezzylog.txt",
                             filemode='a',
                             format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                             datefmt='%H:%M:%S',
-                            level=logging.INFO)
+                            level=logging.DEBUG)
 log = logging.getLogger("Reserve.py")
 
 class Reservation:
