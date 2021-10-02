@@ -154,8 +154,11 @@ class Reservation:
                 # TODO function to decide what time to reserve
                 log.info("Times found for this Friday!")
                 log.info(f"Times: {time_slots}")
-                self.get_reservation(time_slots[-1])
-                self.update_config('this_friday')
+                try:
+                    self.get_reservation(time_slots[-1])
+                    self.update_config('this_friday')
+                except Exception as e:
+                    log.error(f"Error securing reservation: {e}")
             else:
                 log.info("No tables found for this Friday")
 
@@ -167,8 +170,11 @@ class Reservation:
                 # TODO function to decide what time to reserve
                 log.info("Times found for this Saturday!")
                 log.info(f"Times: {time_slots}")
-                self.get_reservation(time_slots[-1])
-                self.update_config('this_saturday')
+                try:
+                    self.get_reservation(time_slots[-1])
+                    self.update_config('this_saturday')
+                except Exception as e:
+                    log.error(f"Error securing reservation: {e}")
             else:
                 log.info("No tables found for this Saturday")
 
@@ -180,21 +186,27 @@ class Reservation:
                 # TODO function to decide what time to reserve
                 log.info("Times found for next Friday!")
                 log.info(f"Times: {time_slots}")
-                self.get_reservation(time_slots[-1])
-                self.update_config('next_friday')
+                try:
+                    self.get_reservation(time_slots[-1])
+                    self.update_config('next_friday')
+                except Exception as e:
+                    log.error(f"Error securing reservation: {e}")
             else:
                 log.info("No tables found for next Friday")
 
         if not self.config['reservations']['next_saturday']:
-            log.info("Searchiong for tables next Saturday")
+            log.info("Searching for tables next Saturday")
             time_slots = self.find_tables('Saturday', out=True)
 
             if len(time_slots) != 0:
                 # TODO function to decide what time to reserve
                 log.info("Times found for next Saturday!")
                 log.info(f"Times: {time_slots}")
-                self.get_reservation(time_slots[-1])
-                self.update_config('next_saturday')
+                try:
+                    self.get_reservation(time_slots[-1])
+                    self.update_config('next_saturday')
+                except Exception as e:
+                    log.error(f"Error securing reservation: {e}")
             else:
                 log.info("No tables found for next Saturday")
 def main():
