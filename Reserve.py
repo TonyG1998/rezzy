@@ -141,8 +141,9 @@ class Reservation:
         self.browser.find_element_by_xpath(".//button[@id='complete-reservation']").click()
         time.sleep(10)
 
-    def update_config(self, day: str):
+    def update_config(self, day: str, time: str):
         self.config['reservations'][day] = True
+        self.config['times'][day] = time
 
         # TODO updates the restaurant config if a reservation is found for the given day.
         file_name = self.config['name']
@@ -164,8 +165,9 @@ class Reservation:
                 log.info("Times found for this Friday!")
                 log.info(f"Times: {time_slots}")
                 try:
+                    time = time_slots[-1]
                     self.get_reservation(time_slots[-1])
-                    self.update_config('this_friday')
+                    self.update_config('this_friday', time)
                 except Exception as e:
                     log.error(f"Error securing reservation: {e}")
             else:
@@ -180,8 +182,9 @@ class Reservation:
                 log.info("Times found for this Saturday!")
                 log.info(f"Times: {time_slots}")
                 try:
+                    time = time_slots[-1]
                     self.get_reservation(time_slots[-1])
-                    self.update_config('this_saturday')
+                    self.update_config('this_saturday', time)
                 except Exception as e:
                     log.error(f"Error securing reservation: {e}")
             else:
@@ -196,8 +199,9 @@ class Reservation:
                 log.info("Times found for next Friday!")
                 log.info(f"Times: {time_slots}")
                 try:
+                    time = time_slots[-1]
                     self.get_reservation(time_slots[-1])
-                    self.update_config('next_friday')
+                    self.update_config('next_friday', time)
                 except Exception as e:
                     log.error(f"Error securing reservation: {e}")
             else:
@@ -212,14 +216,15 @@ class Reservation:
                 log.info("Times found for next Saturday!")
                 log.info(f"Times: {time_slots}")
                 try:
+                    time = time_slots[-1]
                     self.get_reservation(time_slots[-1])
-                    self.update_config('next_saturday')
+                    self.update_config('next_saturday', time)
                 except Exception as e:
                     log.error(f"Error securing reservation: {e}")
             else:
                 log.info("No tables found for next Saturday")
 def main():
-    test_config = open("./configs/broadway.json")
+    test_config = open("./configs/lifted.json")
     config = json.load(test_config)
     ACCOUNTS = json.load(open("accounts.json"))
 
