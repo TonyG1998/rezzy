@@ -1,4 +1,7 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import logging, coloredlogs, verboselogs
 import pendulum
@@ -122,8 +125,14 @@ class Reservation:
         self.browser.switch_to.default_content()
         time.sleep(2)
 
+        #Wait for reservation to be clickable
+        log.info("Waiting for reservation button to be clickable")
+        wait = WebDriverWait(self.browser, 30)
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, ".//button[@id='complete-reservation']")))
+
         log.info("Filling phone number")
         phone_element = self.browser.find_element_by_xpath(".//input[@id='phoneNumber']")
+        phone_element.clear()
         phone_element.send_keys(self.config['form_info']['phone_number'])
         time.sleep(2)
 
