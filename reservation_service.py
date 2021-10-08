@@ -29,8 +29,7 @@ def main():
 
 
         # Browser initialization
-        display = Display(visible=0, size=(1920, 1080))
-        display.start()
+        os.environ['DISPLAY'] = ':0'
 
         for restaurant in configs:
             log.info(f"STARTING RUN FOR {restaurant['name']} !")
@@ -44,7 +43,7 @@ def main():
     except Exception as e:
         log.error(f"Error in reservation service {e}")
 
-    display.stop()
+    
 
 
 
