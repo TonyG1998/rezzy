@@ -33,9 +33,10 @@ def main():
 
         for restaurant in configs:
             log.info(f"STARTING RUN FOR {restaurant['name']} !")
-            browser = webdriver.Firefox()
             try:
+                browser = webdriver.Firefox()
                 Reservation(browser, restaurant, ACCOUNTS[restaurant['form_info']['account']]).reserve()
+                browser.quit()
             except Exception as e:
                 log.error(f"Error reserving for {restaurant['name']}: {e}")
                 browser.quit()
@@ -43,7 +44,8 @@ def main():
     except Exception as e:
         log.error(f"Error in reservation service {e}")
 
-    
+
+
 
 
 
