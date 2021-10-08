@@ -26,6 +26,9 @@ def main():
                     config["reservations"]["this_friday"] = config["reservations"]["next_friday"]
                     config["reservations"]["next_friday"] = False
 
+                    config["times"]["this_friday"] = config["times"]["next_friday"]
+                    config["times"]["next_friday"] = ""
+
                     f.close()
 
                 with open(os.path.join(config_dir, filename), "w") as f:
@@ -39,6 +42,9 @@ def main():
                     log.info(f"Moving reservations next Saturday to this Saturday: {filename}")
                     config["reservations"]["this_saturday"] = config["reservations"]["next_saturday"]
                     config["reservations"]["next_saturday"] = False
+
+                    config["times"]["this_saturday"] = config["times"]["next_saturday"]
+                    config["times"]["next_saturday"] = ""
 
                     f.close()
 
