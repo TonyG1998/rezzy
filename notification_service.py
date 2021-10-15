@@ -33,7 +33,7 @@ def create_message()->str:
 
 
 def main():
-    yag = yagmail.SMTP("530reservations@gmail.com", PASSWORD)
+    yag = yagmail.SMTP(EMAIL, PASSWORD)
 
     notification = create_message()
     #Tony
